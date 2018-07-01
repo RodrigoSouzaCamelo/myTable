@@ -1,0 +1,29 @@
+table.myTable  {
+    width:100%;
+}
+table.myTable, th.myTable, td.myTable {
+    /* border: 1px solid black; */
+    border-collapse: collapse;
+}
+.myTable th, td {
+    padding: 15px;
+    text-align: left;
+}
+table.myTable tr:nth-child(even) {
+    background-color: #eee;
+}
+table.myTable tr:nth-child(odd) {
+   background-color: #fff;
+}
+
+table.myTable tr:nth-child(even):hover {
+    background-color: #d8d8d8;
+}
+table.myTable tr:nth-child(odd):hover {
+   background-color: #d8d8d8;
+}
+
+table.myTable thead th {
+    background-color: black;
+    color: white;
+}
