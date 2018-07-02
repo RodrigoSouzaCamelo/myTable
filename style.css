@@ -8,7 +8,9 @@ table.myTable, th.myTable, td.myTable {
 .myTable th, td {
     padding: 15px;
     text-align: left;
+    font-weight: normal;
 }
+
 table.myTable tr:nth-child(even) {
     background-color: #eee;
 }
@@ -26,4 +28,5 @@ table.myTable tr:nth-child(odd):hover {
 table.myTable thead th {
     background-color: black;
     color: white;
+    text-transform: uppercase;
 }
