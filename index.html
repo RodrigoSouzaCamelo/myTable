@@ -4,16 +4,26 @@
     </head>
     <body>
         <div id="myTable"></div>
+        <div id="pager"></div>
         <script src="myTable.js"></script>
         <script>
             var data = [
                 { id:"1", name:"Rodrigo", email:"rodrigo@email.com" }, 
-                { id:"1", name:"Pedro", email:"pedro@email.com" },
-                { id:"1", name:"Felipe", email:"felipe@email.com" },
+                { id:"2", name:"Pedro", email:"pedro@email.com" },
+                { id:"3", name:"Felipe", email:"felipe@email.com" },
+                { id:"4", name:"João", email:"joao@email.com" },
+                { id:"5", name:"Emanuel", email:"emanuel@email.com" },
+                { id:"6", name:"Lucas", email:"lucas@email.com" },
+                { id:"7", name:"Rodrigo", email:"rodrigo@email.com" }, 
+                { id:"8", name:"Pedro", email:"pedro@email.com" },
+                { id:"9", name:"Felipe", email:"felipe@email.com" },
+                { id:"10", name:"João", email:"joao@email.com" },
+                { id:"11", name:"Emanuel", email:"emanuel@email.com" },
+                { id:"12", name:"Lucas", email:"lucas@email.com" },
             ];
 
             myTable({
-                table: "myTable",
+                tableDiv: "myTable",
                 data: data,
                 colNames: [
                     { name:"Id", index:"id" },
