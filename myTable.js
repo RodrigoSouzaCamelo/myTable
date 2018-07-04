@@ -1,6 +1,7 @@
 var table;
 var header;
 var body;
+var pager;
 var currentPage = 0;
 var pageLength;
 var rowNum = 5;
@@ -8,6 +9,8 @@ var rowNum = 5;
 function myTable(foundation) {
     this.foundation = foundation;
     this.pageLength = Math.ceil(foundation.data.length / rowNum);
+    this.pager = document.getElementById(foundation.pager);
+    this.pager.className = "pager";
 
     table = document.createElement("table");
     header = document.createElement("thead");
@@ -30,13 +33,13 @@ function myTable(foundation) {
         alterPagerEvent();
         Pagination(data, foundation.colNames, foundation.tableDiv);
     });
-    document.getElementById("pager").appendChild(backPage);
+    this.pager.appendChild(backPage);
     for (i = 0; i < this.pageLength; i++) {
-        var pager = document.createElement('a');
-        pager.innerText = i + 1;
-        pager.id = "pager" + i;
-        pager.className = i == this.currentPage ? 'active' : '';
-        document.getElementById("pager").appendChild(pager);
+        var pagerNum = document.createElement('a');
+        pagerNum.innerText = i + 1;
+        pagerNum.id = "pager" + i;
+        pagerNum.className = i == this.currentPage ? 'active' : '';
+        document.getElementById("pager").appendChild(pagerNum);
     }
     var nextPage = document.createElement('a');
     nextPage.innerText = '>>';
@@ -45,7 +48,7 @@ function myTable(foundation) {
         alterPagerEvent();
         Pagination(data, foundation.colNames, foundation.tableDiv);
     });
-    document.getElementById("pager").appendChild(nextPage);
+    this.pager.appendChild(nextPage);
 }
 
 function Pagination(data, colNames, tableDiv) {
