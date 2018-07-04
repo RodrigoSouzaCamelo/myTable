@@ -1,10 +1,16 @@
 table.myTable  {
     width:100%;
+    border: #dee2e6 1px solid;
 }
 table.myTable, th.myTable, td.myTable {
     /* border: 1px solid black; */
     border-collapse: collapse;
 }
+
+.myTable tbody th{
+    border-top: #d8d8d8 1px solid;
+}
+
 .myTable th, td {
     padding: 15px;
     text-align: left;
@@ -26,13 +32,14 @@ table.myTable tr:nth-child(odd):hover {
 }
 
 table.myTable thead th {
-    background-color: black;
+    background-color: #222529;
     color: white;
     text-transform: uppercase;
 }
 
 .pager {
     display: inline-block;
+    margin-top: 1%;
 }
 
 .pager a {
