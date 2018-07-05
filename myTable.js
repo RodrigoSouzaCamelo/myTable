@@ -25,18 +25,20 @@ function myTable(foundation) {
     constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
 
     backPage.innerText = "<<";
-    backPage.addEventListener("click", function () {
+    backPage.id = "btnBack";
+    backPage.onclick = () => {
         currentPage--;
         alterPagerEvent();
         constructTBody(data, foundation.colNames, foundation.tableDiv);
-    });
+    };
 
     nextPage.innerText = '>>';
-    nextPage.addEventListener("click", function () {
+    nextPage.id = "nextPage";
+    nextPage.onclick = () => {
         currentPage++;
         alterPagerEvent();
         constructTBody(data, foundation.colNames, foundation.tableDiv);
-    });
+    };
     
     this.pager.appendChild(backPage);
     for (i = 0; i < this.pageLength; i++) {
@@ -52,8 +54,6 @@ function myTable(foundation) {
     this.table.appendChild(body);
     document.getElementById(foundation.tableDiv).appendChild(this.table);
 }
-
-
 
 function clearRows(tableDiv) {
     var div = document.getElementById(tableDiv);
@@ -84,7 +84,11 @@ function constructTBody(data, colNames, tableDiv) {
             col.innerText = data[x][colNames[y].index];
             row.appendChild(col);
         }
-
+        if(this.foundation.data.length <= this.pageLength || this.currentPage >= Math.ceil(foundation.data.length / this.pageLength) - 1){
+            this.nextPage.disabled = true;
+        }
+        this.nextPage.disabled = true;
+        // $('#anterior').prop('disabled', dados.length <= tamanhoPagina || pagina == 0);
         body.appendChild(row);
         table.appendChild(body);
     }
