@@ -7,6 +7,7 @@ var pageLength;
 var rowNum = 5;
 var backPage;
 var nextPage;
+var selectRowNum;
 
 function myTable(foundation) {
     this.foundation = foundation;
@@ -17,9 +18,23 @@ function myTable(foundation) {
     this.table = document.createElement("table");
     this.header = document.createElement("thead");
     this.body = document.createElement("tbody");
+    this.selectRowNum = document.createElement("select");
 
     this.pager.className = "pager";
     this.table.className = 'myTable';
+
+    for (i = 0; i < this.pageLength; i++) {
+        var option = document.createElement("option");
+        option.innerText = i + 1;
+        option.value = i;
+        this.selectRowNum.appendChild(option);
+        // this.selectRowNum.add(option, this.selectRowNum.options[i]);
+    }
+    this.selectRowNum.onclick =  () => {    
+        this.currentPage = this.selectRowNum.selectedIndex;
+        alterPagerEvent();
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+    };
 
     constructTHead(foundation.colNames);
     constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
@@ -39,7 +54,7 @@ function myTable(foundation) {
         alterPagerEvent();
         constructTBody(data, foundation.colNames, foundation.tableDiv);
     };
-    
+
     this.pager.appendChild(backPage);
     for (i = 0; i < this.pageLength; i++) {
         var pagerNum = document.createElement('a');
@@ -49,9 +64,10 @@ function myTable(foundation) {
         document.getElementById("pager").appendChild(pagerNum);
     }
     this.pager.appendChild(nextPage);
-    
+
     this.table.appendChild(header);
     this.table.appendChild(body);
+    document.getElementById(foundation.tableDiv).appendChild(this.selectRowNum);
     document.getElementById(foundation.tableDiv).appendChild(this.table);
 }
 
@@ -95,7 +111,7 @@ function constructTBody(data, colNames, tableDiv) {
 }
 
 function alterPagerEvent() {
-    for(i = 0; i < this.pageLength; i++){
+    for (i = 0; i < this.pageLength; i++) {
         var numPage = document.getElementById("pager" + i);
         numPage.className = '';
     }
