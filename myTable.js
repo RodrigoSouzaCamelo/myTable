@@ -21,7 +21,8 @@ function myTable(foundation) {
     this.selectRowNum = document.createElement("select");
 
     this.pager.className = "pager";
-    this.table.className = 'myTable';
+    this.table.className = "myTable";
+    this.selectRowNum.className = "selectRowNum";
 
     for (i = 0; i < this.pageLength; i++) {
         var option = document.createElement("option");
@@ -30,7 +31,7 @@ function myTable(foundation) {
         this.selectRowNum.appendChild(option);
         // this.selectRowNum.add(option, this.selectRowNum.options[i]);
     }
-    this.selectRowNum.onclick =  () => {    
+    this.selectRowNum.onclick = () => {
         this.currentPage = this.selectRowNum.selectedIndex;
         alterPagerEvent();
         constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
@@ -61,6 +62,11 @@ function myTable(foundation) {
         pagerNum.innerText = i + 1;
         pagerNum.id = "pager" + i;
         pagerNum.className = i == this.currentPage ? 'active' : '';
+        pagerNum.onclick = () => {
+            currentPage = i;
+            alterPagerEvent();
+            constructTBody(data, foundation.colNames, foundation.tableDiv);
+        };
         document.getElementById("pager").appendChild(pagerNum);
     }
     this.pager.appendChild(nextPage);
@@ -100,7 +106,7 @@ function constructTBody(data, colNames, tableDiv) {
             col.innerText = data[x][colNames[y].index];
             row.appendChild(col);
         }
-        if(this.foundation.data.length <= this.pageLength || this.currentPage >= Math.ceil(foundation.data.length / this.pageLength) - 1){
+        if (this.foundation.data.length <= this.pageLength || this.currentPage >= Math.ceil(foundation.data.length / this.pageLength) - 1) {
             this.nextPage.disabled = true;
         }
         this.nextPage.disabled = true;
