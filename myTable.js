@@ -24,7 +24,7 @@ function myTable(foundation) {
     this.table.className = "myTable";
     this.selectRowNum.className = "selectRowNum";
 
-    for (i = 0; i < this.pageLength; i++) {
+    for (var i = 0; i < this.pageLength; i++) {
         var option = document.createElement("option");
         option.innerText = i + 1;
         option.value = i;
@@ -57,15 +57,15 @@ function myTable(foundation) {
     };
 
     this.pager.appendChild(backPage);
-    for (i = 0; i < this.pageLength; i++) {
+    for (var i = 0; i < this.pageLength; i++) {
         var pagerNum = document.createElement('a');
+        var num = i;
+        console.log("i: " + i + ", num: " + num);
         pagerNum.innerText = i + 1;
         pagerNum.id = "pager" + i;
         pagerNum.className = i == this.currentPage ? 'active' : '';
-        pagerNum.onclick = () => {
-            currentPage = i;
-            alterPagerEvent();
-            constructTBody(data, foundation.colNames, foundation.tableDiv);
+        pagerNum.onclick = function (e) {
+            eventClickPager(data, foundation.colNames, foundation.tableDiv, this.innerHTML)
         };
         document.getElementById("pager").appendChild(pagerNum);
     }
@@ -89,7 +89,7 @@ function clearRows(tableDiv) {
 
 function constructTHead(colNames) {
     var row = document.createElement("tr");
-    for (i = 0; i < colNames.length; i++) {
+    for (var i = 0; i < colNames.length; i++) {
         var col = document.createElement("th");
         col.innerText = colNames[i].name;
         row.appendChild(col);
@@ -117,10 +117,17 @@ function constructTBody(data, colNames, tableDiv) {
 }
 
 function alterPagerEvent() {
-    for (i = 0; i < this.pageLength; i++) {
+    for (var i = 0; i < this.pageLength; i++) {
         var numPage = document.getElementById("pager" + i);
         numPage.className = '';
     }
-    numPage = document.getElementById("pager" + this.currentPage);
+    var numPage = document.getElementById("pager" + this.currentPage);
     numPage.className = 'active';
+}
+
+function eventClickPager(data, colNames, tableDiv, num) {
+    this.currentPage = num - 1;
+    console.log(num);
+    alterPagerEvent();
+    constructTBody(data, colNames, tableDiv);
 }
