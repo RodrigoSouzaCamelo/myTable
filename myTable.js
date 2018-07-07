@@ -92,6 +92,12 @@ function constructTHead(colNames) {
     for (var i = 0; i < colNames.length; i++) {
         var col = document.createElement("th");
         col.innerText = colNames[i].name;
+        col.id = i;
+        col.onclick = (e) => {
+            eventClickTHeadOrder(colNames[e.target.id].index);
+            clearRows(this.foundation.tableDiv);
+            constructTBody(this.foundation.data, this.foundation.colNames, this.foundation.tableDiv);
+        };
         row.appendChild(col);
         this.header.appendChild(row);
     }
@@ -130,4 +136,17 @@ function eventClickPager(data, colNames, tableDiv, num) {
     console.log(num);
     alterPagerEvent();
     constructTBody(data, colNames, tableDiv);
+}
+
+function eventClickTHeadOrder(index){
+    if(!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))){
+    this.foundation.data.sort(function (obj1, obj2) {
+        return obj1[index] < obj2[index] ? -1 :
+            (obj1[index] > obj2[index] ? 1 : 0);
+    });
+    } else {
+        this.foundation.data.sort(function (obj1, obj2) {
+            return (obj1[index] - obj2[index]);
+        });
+    }
 }
