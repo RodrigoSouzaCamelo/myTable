@@ -94,7 +94,7 @@ function constructTHead(colNames) {
         col.innerText = colNames[i].name;
         col.id = i;
         col.onclick = (e) => {
-            eventClickTHeadOrder(colNames[e.target.id].index);
+            eventClickTHeadOrder(e.target ,colNames[e.target.id].index);
             clearRows(this.foundation.tableDiv);
             constructTBody(this.foundation.data, this.foundation.colNames, this.foundation.tableDiv);
         };
@@ -138,7 +138,15 @@ function eventClickPager(data, colNames, tableDiv, num) {
     constructTBody(data, colNames, tableDiv);
 }
 
-function eventClickTHeadOrder(index){
+function eventClickTHeadOrder(target, index){
+    console.log(this.table);
+    col = this.table.querySelector("thead");
+    col = col.querySelectorAll("th");
+    for(i = 0; i < col.length; i++){
+        col[i].className = "";
+    }
+    col = document.getElementById(index);
+    target.className = "arrow-up";
     if(!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))){
     this.foundation.data.sort(function (obj1, obj2) {
         return obj1[index] < obj2[index] ? -1 :

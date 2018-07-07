@@ -80,3 +80,27 @@ table.myTable thead th:hover {
     color: white;
     border-radius: 4px; 
 }
+
+.arrow-down:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    margin-left: 1%;
+  }
+
+  .arrow-up:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid white;
+    margin-left: 1%;
+  }
