@@ -37,6 +37,10 @@ table.myTable thead th {
     text-transform: uppercase;
 }
 
+table.myTable thead th:hover {
+    background-color: #43484e;
+}
+
 .pager {
     display: inline-block;
     margin-top: 1%;
