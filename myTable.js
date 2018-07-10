@@ -158,3 +158,16 @@ function eventClickTHeadOrder(target, index){
         });
     }
 }
+
+function requestHttp(url, data){
+    var request = new XMLHttpRequest();
+    if(data){
+        request.open("POST", url);
+        request.send(data);
+    } else {
+        request.open("GET", url);
+        request.send();
+    }
+
+    return JSON.parse(url.responseText);
+}
