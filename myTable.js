@@ -92,9 +92,9 @@ function constructTHead(colNames) {
     for (var i = 0; i < colNames.length; i++) {
         var col = document.createElement("th");
         col.innerText = colNames[i].name;
-        col.id = i;
+        col.setAttribute("role", i);
         col.onclick = (e) => {
-            eventClickTHeadOrder(e.target ,colNames[e.target.id].index);
+            eventClickTHeadOrder(e.target ,colNames[e.target.getAttribute("role")].index);
             clearRows(this.foundation.tableDiv);
             constructTBody(this.foundation.data, this.foundation.colNames, this.foundation.tableDiv);
         };
