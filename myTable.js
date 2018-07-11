@@ -11,6 +11,23 @@ var selectRowNum;
 
 function myTable(foundation) {
     this.foundation = foundation;
+    if (foundation.url) {
+        requestHttp(foundation.url, foundation.data).then(function (response) {
+            buildTable(response);
+        }, function (error) {
+            alert("Error load Table" + error);
+            return;
+        });
+    } else if (!foundation.mockup) {
+        alert("Error load Table" + error);
+        return;
+    } else {
+        buildTable(foundation.mockup);
+    }
+}
+
+function buildTable(data) {
+    this.foundation.data = typeof data == "object" ? data : JSON.parse(data);
     this.pageLength = Math.ceil(foundation.data.length / rowNum);
     this.pager = document.getElementById(foundation.pager);
     this.backPage = document.createElement('a');
@@ -94,7 +111,7 @@ function constructTHead(colNames) {
         col.innerText = colNames[i].name;
         col.setAttribute("role", i);
         col.onclick = (e) => {
-            eventClickTHeadOrder(e.target ,colNames[e.target.getAttribute("role")].index);
+            eventClickTHeadOrder(e.target, colNames[e.target.getAttribute("role")].index);
             clearRows(this.foundation.tableDiv);
             constructTBody(this.foundation.data, this.foundation.colNames, this.foundation.tableDiv);
         };
@@ -138,20 +155,20 @@ function eventClickPager(data, colNames, tableDiv, num) {
     constructTBody(data, colNames, tableDiv);
 }
 
-function eventClickTHeadOrder(target, index){
+function eventClickTHeadOrder(target, index) {
     console.log(this.table);
     col = this.table.querySelector("thead");
     col = col.querySelectorAll("th");
-    for(i = 0; i < col.length; i++){
+    for (i = 0; i < col.length; i++) {
         col[i].className = "";
     }
     col = document.getElementById(index);
     target.className = "arrow-up";
-    if(!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))){
-    this.foundation.data.sort(function (obj1, obj2) {
-        return obj1[index] < obj2[index] ? -1 :
-            (obj1[index] > obj2[index] ? 1 : 0);
-    });
+    if (!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))) {
+        this.foundation.data.sort(function (obj1, obj2) {
+            return obj1[index] < obj2[index] ? -1 :
+                (obj1[index] > obj2[index] ? 1 : 0);
+        });
     } else {
         this.foundation.data.sort(function (obj1, obj2) {
             return (obj1[index] - obj2[index]);
@@ -159,15 +176,30 @@ function eventClickTHeadOrder(target, index){
     }
 }
 
-function requestHttp(url, data){
-    var request = new XMLHttpRequest();
-    if(data){
-        request.open("POST", url);
-        request.send(data);
-    } else {
-        request.open("GET", url);
-        request.send();
-    }
+function requestHttp(url, data) {
+    return new Promise(function (resolve, reject) {
+        var request = new XMLHttpRequest();
 
-    return JSON.parse(url.responseText);
+        request.onload = function () {
+            if (request.status == 200) {
+                resolve(request.responseText);
+            } else {
+                reject(Error(request.statusText));
+            }
+        }
+
+        request.onerror = function () {
+            reject(Error("Network Error"));
+        }
+
+        if (data) {
+            request.open("POST", url);
+            request.send(data);
+        } else {
+            request.open("GET", url);
+            request.send();
+        }
+
+        return request.responseText;
+    });
 }

@@ -26,13 +26,26 @@
             myTable({
                 tableDiv: "myTable",
                 pager: "pager",
-                data: data,
+                url:"http://localhost:8000/api/persons",
+                datatype: "json",
                 colNames: [
                     { name:"Id", index:"id" },
                     { name:"Nome", index:"name" },
                     { name:"E-mail", index:"email" }
                 ]
             });
+
+            /* If you only have the mockup data use this code */
+            //     myTable({
+            //     tableDiv: "myTable",
+            //     pager: "pager",
+            //     mockup: data,
+            //     colNames: [
+            //         { name:"Id", index:"id" },
+            //         { name:"Nome", index:"name" },
+            //         { name:"E-mail", index:"email" }
+            //     ]
+            // });
         </script>
     </body>
 </html>
