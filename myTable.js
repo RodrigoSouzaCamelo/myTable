@@ -62,7 +62,7 @@ function buildTable(data) {
     backPage.onclick = () => {
         currentPage--;
         alterPagerEvent();
-        constructTBody(data, foundation.colNames, foundation.tableDiv);
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
     };
 
     nextPage.innerText = '>>';
@@ -70,7 +70,7 @@ function buildTable(data) {
     nextPage.onclick = () => {
         currentPage++;
         alterPagerEvent();
-        constructTBody(data, foundation.colNames, foundation.tableDiv);
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
     };
 
     this.pager.appendChild(backPage);
@@ -82,7 +82,7 @@ function buildTable(data) {
         pagerNum.id = "pager" + i;
         pagerNum.className = i == this.currentPage ? 'active' : '';
         pagerNum.onclick = function (e) {
-            eventClickPager(data, foundation.colNames, foundation.tableDiv, this.innerHTML)
+            eventClickPager(foundation.data, foundation.colNames, foundation.tableDiv, this.innerHTML)
         };
         document.getElementById("pager").appendChild(pagerNum);
     }
