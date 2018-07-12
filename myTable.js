@@ -41,15 +41,17 @@ function buildTable(data) {
     this.table.className = "myTable";
     this.selectRowNum.className = "selectRowNum";
 
-    for (var i = 0; i < this.pageLength; i++) {
+    for (var i = 0; i < this.foundation.rowList.length; i++) {
         var option = document.createElement("option");
-        option.innerText = i + 1;
-        option.value = i;
+        option.innerText = this.foundation.rowList[i];
+        option.value = this.foundation.rowList[i];
         this.selectRowNum.appendChild(option);
         // this.selectRowNum.add(option, this.selectRowNum.options[i]);
     }
-    this.selectRowNum.onclick = () => {
-        this.currentPage = this.selectRowNum.selectedIndex;
+    this.selectRowNum.onchange = () => {
+        this.rowNum = this.selectRowNum.options[this.selectRowNum.selectedIndex].value;
+        this.pageLength = Math.ceil(foundation.data.length / rowNum);
+        constructPager();
         alterPagerEvent();
         constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
     };
@@ -57,36 +59,7 @@ function buildTable(data) {
     constructTHead(foundation.colNames);
     constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
 
-    backPage.innerText = "<<";
-    backPage.id = "btnBack";
-    backPage.onclick = () => {
-        currentPage--;
-        alterPagerEvent();
-        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
-    };
-
-    nextPage.innerText = '>>';
-    nextPage.id = "nextPage";
-    nextPage.onclick = () => {
-        currentPage++;
-        alterPagerEvent();
-        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
-    };
-
-    this.pager.appendChild(backPage);
-    for (var i = 0; i < this.pageLength; i++) {
-        var pagerNum = document.createElement('a');
-        var num = i;
-        console.log("i: " + i + ", num: " + num);
-        pagerNum.innerText = i + 1;
-        pagerNum.id = "pager" + i;
-        pagerNum.className = i == this.currentPage ? 'active' : '';
-        pagerNum.onclick = function (e) {
-            eventClickPager(foundation.data, foundation.colNames, foundation.tableDiv, this.innerHTML)
-        };
-        document.getElementById("pager").appendChild(pagerNum);
-    }
-    this.pager.appendChild(nextPage);
+    constructPager();
 
     this.table.appendChild(header);
     this.table.appendChild(body);
@@ -137,6 +110,41 @@ function constructTBody(data, colNames, tableDiv) {
         body.appendChild(row);
         table.appendChild(body);
     }
+}
+
+function constructPager(){
+    this.pager.innerHTML = "";
+
+    backPage.innerText = "<<";
+    backPage.id = "btnBack";
+    backPage.onclick = () => {
+        currentPage--;
+        alterPagerEvent();
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+    };
+
+    nextPage.innerText = '>>';
+    nextPage.id = "nextPage";
+    nextPage.onclick = () => {
+        currentPage++;
+        alterPagerEvent();
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+    };
+
+    this.pager.appendChild(backPage);
+    for (var i = 0; i < this.pageLength; i++) {
+        var pagerNum = document.createElement('a');
+        var num = i;
+        console.log("i: " + i + ", num: " + num);
+        pagerNum.innerText = i + 1;
+        pagerNum.id = "pager" + i;
+        pagerNum.className = i == this.currentPage ? 'active' : '';
+        pagerNum.onclick = function (e) {
+            eventClickPager(foundation.data, foundation.colNames, foundation.tableDiv, this.innerHTML)
+        };
+        document.getElementById("pager").appendChild(pagerNum);
+    }
+    this.pager.appendChild(nextPage);
 }
 
 function alterPagerEvent() {
