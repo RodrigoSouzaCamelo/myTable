@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-            <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <div id="myTable"></div>
-        <div id="pager"></div>
-        <script src="myTable.js"></script>
-        <script>
-            myTable({
-                tableDiv: "myTable",
-                pager: "pager",
-                url:"http://localhost:8000/api/persons",
-                datatype: "json",
-                rowList: [5,10,25,50],
-                colNames: [
-                    { name:"Id", index:"id" },
-                    { name:"Nome", index:"name" },
-                    { name:"E-mail", index:"email" }
-                ]
-            });
-        </script>
-    </body>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="myTable"></div>
+    <div id="pager"></div>
+    <script src="myTable.js"></script>
+    <script>
+        var data = [
+            { id: "1", name: "Rodrigo", email: "rodrigo@email.com" },
+            { id: "2", name: "Pedro", email: "pedro@email.com" },
+            { id: "3", name: "Felipe", email: "felipe@email.com" },
+            { id: "4", name: "João", email: "joao@email.com" },
+            { id: "5", name: "Emanuel", email: "emanuel@email.com" },
+            { id: "6", name: "Lucas", email: "lucas@email.com" },
+            { id: "7", name: "Rodrigo", email: "rodrigo@email.com" },
+            { id: "8", name: "Pedro", email: "pedro@email.com" },
+            { id: "9", name: "Felipe", email: "felipe@email.com" },
+            { id: "10", name: "João", email: "joao@email.com" },
+            { id: "11", name: "Emanuel", email: "emanuel@email.com" },
+            { id: "12", name: "Lucas", email: "lucas@email.com" }
+        ];
+
+        myTable({
+            tableDiv: "myTable",
+            pager: "pager",
+            mockup: data,
+            rowList: [5, 10, 25, 50],
+            colNames: [
+                { name: "Id", index: "id" },
+                { name: "Nome", index: "name" },
+                { name: "E-mail", index: "email" }
+            ]
+        });
+    </script>
+</body>
+
 </html>

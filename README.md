@@ -1,5 +1,7 @@
 # myTable
-Dynamic table created in javascript
+Dynamic table created in pure javascript using the DOM, Promise and XMLRequest API.
+
+![Screenshot 1](screenshot.jpeg)
 
 ## Quick start
 To use data from a variable use the following code
