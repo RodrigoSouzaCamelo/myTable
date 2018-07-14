@@ -113,4 +113,5 @@ table.myTable thead th:hover {
 
   .disable {
       pointer-events: none;
+      color: grey !important;
   }
