@@ -106,7 +106,6 @@ function constructTBody(data, colNames, tableDiv) {
             this.nextPage.disabled = true;
         }
         this.nextPage.disabled = true;
-        // $('#anterior').prop('disabled', dados.length <= tamanhoPagina || pagina == 0);
         body.appendChild(row);
         table.appendChild(body);
     }
@@ -141,8 +140,6 @@ function constructPager() {
     this.pager.appendChild(backPage);
     for (var i = 0; i < this.pageLength; i++) {
         var pagerNum = document.createElement('a');
-        var num = i;
-        console.log("i: " + i + ", num: " + num);
         pagerNum.innerText = i + 1;
         pagerNum.id = "pager" + i;
         pagerNum.className = i == this.currentPage ? 'active' : '';
@@ -174,23 +171,42 @@ function eventClickPager(data, colNames, tableDiv, num) {
 }
 
 function eventClickTHeadOrder(target, index) {
-    console.log(this.table);
-    col = this.table.querySelector("thead");
-    col = col.querySelectorAll("th");
-    for (i = 0; i < col.length; i++) {
-        col[i].className = "";
-    }
-    col = document.getElementById(index);
-    target.className = "arrow-up";
-    if (!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))) {
-        this.foundation.data.sort(function (obj1, obj2) {
-            return obj1[index] < obj2[index] ? -1 :
-                (obj1[index] > obj2[index] ? 1 : 0);
-        });
+    if (target.className == "" || target.className == "arrow-down") {
+        col = this.table.querySelector("thead");
+        col = col.querySelectorAll("th");
+        for (i = 0; i < col.length; i++) {
+            col[i].className = "";
+        }
+        col = document.getElementById(index);
+        target.className = "arrow-up";
+        if (!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))) {
+            this.foundation.data.sort(function (obj1, obj2) {
+                return obj1[index] < obj2[index] ? -1 :
+                    (obj1[index] > obj2[index] ? 1 : 0);
+            });
+        } else {
+            this.foundation.data.sort(function (obj1, obj2) {
+                return (obj1[index] - obj2[index]);
+            });
+        }
     } else {
-        this.foundation.data.sort(function (obj1, obj2) {
-            return (obj1[index] - obj2[index]);
-        });
+        col = this.table.querySelector("thead");
+        col = col.querySelectorAll("th");
+        for (i = 0; i < col.length; i++) {
+            col[i].className = "";
+        }
+        col = document.getElementById(index);
+        target.className = "arrow-down";
+        if (!(!isNaN(parseFloat(this.foundation.data[0][index])) && isFinite(this.foundation.data[0][index]))) {
+            this.foundation.data.sort(function (obj1, obj2) {
+                return obj1[index] < obj2[index] ? 1 :
+                    (obj1[index] > obj2[index] ? -1 : 0);
+            });
+        } else {
+            this.foundation.data.sort(function (obj1, obj2) {
+                return (obj2[index] - obj1[index]);
+            });
+        }
     }
 }
 
