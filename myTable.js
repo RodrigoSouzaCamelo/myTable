@@ -112,24 +112,31 @@ function constructTBody(data, colNames, tableDiv) {
     }
 }
 
-function constructPager(){
+function constructPager() {
     this.pager.innerHTML = "";
 
     backPage.innerText = "<<";
     backPage.id = "btnBack";
     backPage.onclick = () => {
-        currentPage--;
-        alterPagerEvent();
-        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+        if (currentPage > 0) {
+            currentPage--;
+            alterPagerEvent();
+            constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+        }
     };
 
     nextPage.innerText = '>>';
     nextPage.id = "nextPage";
     nextPage.onclick = () => {
-        currentPage++;
-        alterPagerEvent();
-        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+        if (currentPage < (pageLength - 1)) {
+            currentPage++;
+            alterPagerEvent();
+            constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+        }
     };
+
+    nextPage.className = (currentPage == (pageLength - 1)) ? "disable" : "";
+    backPage.className = (currentPage == 0 && backPage) ? "disable" : "";
 
     this.pager.appendChild(backPage);
     for (var i = 0; i < this.pageLength; i++) {
@@ -154,6 +161,9 @@ function alterPagerEvent() {
     }
     var numPage = document.getElementById("pager" + this.currentPage);
     numPage.className = 'active';
+
+    nextPage.className = (currentPage == (pageLength - 1)) ? "disable" : "";
+    backPage.className = (currentPage == 0 && backPage) ? "disable" : "";
 }
 
 function eventClickPager(data, colNames, tableDiv, num) {

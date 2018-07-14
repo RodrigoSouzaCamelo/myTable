@@ -110,3 +110,7 @@ table.myTable thead th:hover {
     border-bottom: 5px solid white;
     margin-left: 4px;
   }
+
+  .disable {
+      pointer-events: none;
+  }
