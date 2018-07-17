@@ -4,6 +4,14 @@ Dynamic table created in pure javascript using the DOM, Promise and XMLRequest A
 ![Screenshot 1](screenshot.jpeg)
 
 ## Quick start
+
+### Installing
+To install add these files to your project
+```html
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="myTable.js"></script>
+```
+
 To use data from a variable use the following code
 ```javascript
      myTable({
