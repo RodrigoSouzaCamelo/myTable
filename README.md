@@ -11,7 +11,7 @@ To install add these files to your project
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="myTable.js"></script>
 ```
-
+### Inserting data into the table
 To use data from a variable use the following code
 ```javascript
      myTable({
