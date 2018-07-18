@@ -79,18 +79,17 @@ function clearRows(tableDiv) {
 
 function constructTHead(colNames) {
     var row = document.createElement("tr");
-    for (var i = 0; i < colNames.length; i++) {
+    colNames.forEach(function (column) {
         var col = document.createElement("th");
-        col.innerText = colNames[i].name;
-        col.setAttribute("role", i);
+        col.innerText = column.name;
         col.onclick = (e) => {
-            eventClickTHeadOrder(e.target, colNames[e.target.getAttribute("role")].index);
+            eventClickTHeadOrder(e.target, column.index);
             clearRows(this.foundation.tableDiv);
             constructTBody(this.foundation.data, this.foundation.colNames, this.foundation.tableDiv);
         };
         row.appendChild(col);
         this.header.appendChild(row);
-    }
+    });
 }
 
 function constructTBody(data, colNames, tableDiv) {
