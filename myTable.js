@@ -107,6 +107,7 @@ function constructTBody(data, colNames, tableDiv) {
         this.nextPage.disabled = true;
         body.appendChild(row);
         table.appendChild(body);
+        data[x].DOM = row;
     }
 }
 
@@ -236,3 +237,28 @@ function requestHttp(url, data) {
         return request.responseText;
     });
 }
+
+function search(){
+    var select = document.getElementById('search-select');
+    var input = document.getElementById('search-input');
+    var button = document.getElementById('search-button');
+    button.addEventListener('click', function () {
+        var prop = select.value;
+        var val = input.value;
+        data.forEach(function (linha) {
+            var valor = linha[prop];
+            console.log((valor != null || valor != undefined));
+            console.log(linha[prop].indexOf(val));
+            console.log(linha[prop].indexOf(val) < 0);
+            console.log((valor != null || valor != undefined) && linha[prop].indexOf(val) < 0);
+            if ((valor != null || valor != undefined) && linha[prop].indexOf(val) < 0) {
+                linha.DOM.style.display = 'none';
+            }
+            else {
+                linha.DOM.style.display = "";
+            }
+        });
+    });
+}
+
+search();
