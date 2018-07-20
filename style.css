@@ -115,3 +115,34 @@ table.myTable thead th:hover {
       pointer-events: none;
       color: grey !important;
   }
+
+  .search{
+    width: 70px;
+    height: 30px;
+    padding: 4px 4px 4px 20px;
+    margin-bottom: 1%;
+    background-color: #222529;
+    color: white;
+    border-radius: 4px; 
+  }
+
+  .search-select{
+      width: 100px;
+  }
+
+  .search-input{
+      width: auto;
+      height: 20px;
+      background: white;
+      border: 1px #222529 solid;
+  }
+
+  .search-button{
+      width: 100px;
+      border: none;
+      padding: 4px 4px 4px 0px;
+  }
+
+  .search-button:hover{
+      background: #43484e;
+  }
