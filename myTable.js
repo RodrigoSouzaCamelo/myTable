@@ -8,6 +8,12 @@ var rowNum = 5;
 var backPage;
 var nextPage;
 var selectRowNum;
+var actionBar;
+var divRowNum;
+var divSearch;
+var selectSearch;
+var inputSearch;
+var buttonSearch;
 
 function myTable(foundation) {
     this.foundation = foundation;
@@ -41,40 +47,37 @@ function buildTable(data) {
     this.table.className = "myTable";
     this.selectRowNum.className = "selectRowNum";
 
-    for (var i = 0; i < this.foundation.rowList.length; i++) {
-        var option = document.createElement("option");
-        option.innerText = this.foundation.rowList[i];
-        option.value = this.foundation.rowList[i];
-        this.selectRowNum.appendChild(option);
-        // this.selectRowNum.add(option, this.selectRowNum.options[i]);
-    }
-    this.selectRowNum.onchange = () => {
-        this.rowNum = this.selectRowNum.options[this.selectRowNum.selectedIndex].value;
-        this.pageLength = Math.ceil(foundation.data.length / rowNum);
-        constructPager();
-        alterPagerEvent();
-        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
-    };
+    buildActionBar();
 
     constructTHead(foundation.colNames);
+
+    foundation.data.map(function (item) {
+        var row = document.createElement("tr");
+        foundation.colNames.forEach(function (name) {
+            var col = document.createElement("th");
+            col.innerText = item[name.index];
+            row.appendChild(col);
+        });
+
+        body.appendChild(row);
+        table.appendChild(body);
+        item.row = row;
+        return item;
+    });
+
     constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
 
     constructPager();
 
     this.table.appendChild(header);
     this.table.appendChild(body);
-    document.getElementById(foundation.tableDiv).appendChild(this.selectRowNum);
     document.getElementById(foundation.tableDiv).appendChild(this.table);
 }
 
-function clearRows(tableDiv) {
-    var div = document.getElementById(tableDiv);
-    var tbody = div.querySelector("tbody");
-    if (tbody == null)
-        return;
-
-    body = document.createElement("tbody");
-    tbody.remove();
+function clearRows() {
+    foundation.data.forEach(function (item) {
+        item.row.style.display = "none";
+    });
 }
 
 function constructTHead(colNames) {
@@ -94,20 +97,13 @@ function constructTHead(colNames) {
 
 function constructTBody(data, colNames, tableDiv) {
     clearRows(tableDiv);
+
     for (var x = currentPage * rowNum; x < data.length && x < (currentPage + 1) * rowNum; x++) {
-        var row = document.createElement("tr");
-        for (y = 0; y < colNames.length; y++) {
-            var col = document.createElement("th");
-            col.innerText = data[x][colNames[y].index];
-            row.appendChild(col);
-        }
+        data[x].row.style.display = "";
         if (this.foundation.data.length <= this.pageLength || this.currentPage >= Math.ceil(foundation.data.length / this.pageLength) - 1) {
             this.nextPage.disabled = true;
         }
         this.nextPage.disabled = true;
-        body.appendChild(row);
-        table.appendChild(body);
-        data[x].DOM = row;
     }
 }
 
@@ -238,13 +234,10 @@ function requestHttp(url, data) {
     });
 }
 
-function search(){
-    var select = document.getElementById('search-select');
-    var input = document.getElementById('search-input');
-    var button = document.getElementById('search-button');
-    button.addEventListener('click', function () {
-        var prop = select.value;
-        var val = input.value;
+function search() {
+    buttonSearch.addEventListener('click', () => {
+        var prop = this.selectSearch.value;
+        var val = this.inputSearch.value;
         data.forEach(function (linha) {
             var valor = linha[prop];
             console.log((valor != null || valor != undefined));
@@ -252,11 +245,64 @@ function search(){
             console.log(linha[prop].indexOf(val) < 0);
             console.log((valor != null || valor != undefined) && linha[prop].indexOf(val) < 0);
             if ((valor != null || valor != undefined) && linha[prop].indexOf(val) < 0) {
-                linha.DOM.style.display = 'none';
+                linha.row.style.display = 'none';
             }
             else {
-                linha.DOM.style.display = "";
+                linha.row.style.display = "";
             }
         });
     });
+}
+
+function buildActionBar() {
+    this.actionBar = document.createElement("div");
+    this.divRowNum = document.createElement("div");
+    this.divSearch = document.createElement("div");
+    this.selectSearch = document.createElement("select");
+    this.inputSearch = document.createElement("input");
+    this.buttonSearch = document.createElement("button");
+
+    for (var i = 0; i < this.foundation.rowList.length; i++) {
+        var option = document.createElement("option");
+        option.innerText = this.foundation.rowList[i];
+        option.value = this.foundation.rowList[i];
+        this.selectRowNum.appendChild(option);
+        // this.selectRowNum.add(option, this.selectRowNum.options[i]);
+    }
+
+    this.selectRowNum.onchange = () => {
+        this.rowNum = this.selectRowNum.options[this.selectRowNum.selectedIndex].value;
+        this.pageLength = Math.ceil(foundation.data.length / rowNum);
+        constructPager();
+        alterPagerEvent();
+        constructTBody(foundation.data, foundation.colNames, foundation.tableDiv);
+    };
+
+    this.foundation.colNames.forEach(function (item) {
+        let option = document.createElement("option");
+        option.innerText = item.name;
+        option.value = item.index;
+        selectSearch.appendChild(option);
+    });
+
+    this.buttonSearch.innerText = "Pesquisar";
+    this.buttonSearch.className = "search-button";
+    this.inputSearch.className = "search-input";
+    this.selectSearch.className = "search-select";
+
+    divRowNum.appendChild(this.selectRowNum);
+    divSearch.appendChild(buttonSearch);
+    divSearch.appendChild(inputSearch);
+    divSearch.appendChild(selectSearch);
+
+    divRowNum.className = "divRowNum";
+    divSearch.className = "search";
+    actionBar.className = "action-bar";
+
+
+    actionBar.appendChild(divRowNum);
+    actionBar.appendChild(divSearch);
+
+    document.getElementById(this.foundation.tableDiv).appendChild(actionBar);
+    search();
 }
