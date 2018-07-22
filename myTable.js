@@ -260,5 +260,3 @@ function search(){
         });
     });
 }
-
-search();
